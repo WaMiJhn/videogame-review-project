@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.review.GetReviewsUseCaseTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.015">
+  <properties/>
+  <testcase name="getReviews_shouldReturnFilteredByUserAndGame()" classname="fontys.metarate.business.review.GetReviewsUseCaseTest" time="0.01"/>
+  <testcase name="getReviews_shouldReturnAllReviewsConverted()" classname="fontys.metarate.business.review.GetReviewsUseCaseTest" time="0.001"/>
+  <testcase name="getReviews_shouldReturnFilteredByGame()" classname="fontys.metarate.business.review.GetReviewsUseCaseTest" time="0.001"/>
+  <testcase name="getReviews_shouldReturnFilteredByUser()" classname="fontys.metarate.business.review.GetReviewsUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

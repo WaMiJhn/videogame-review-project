@@ -1,0 +1,216 @@
+#profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+  
+.profile-container {
+    width: 900px;
+    height: 850px;
+    padding: 10px 100px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.profile-user {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-avatar img {
+    width: 100px;
+    border-radius: 10px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-user-name {
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.user-reviews h3 {
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+.user-reviews {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    gap: 10px;
+    width: 100%;
+}
+
+.user-review-card {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.user-review-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.user-review-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 999px;
+    font-size: 15px;
+    height: 29px;
+    width: 29px;
+    color: white;
+    font-weight: bold;
+}
+
+.user-review-content img {
+    max-width: 120px;
+    width: 100%;
+}
+
+.user-review-info {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+.user-review-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.user-settings .settings-edit {
+    font-family: Arial, sans-serif;
+    border: 1px solid #ccc;
+    padding: 8px;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: white;
+    cursor: pointer;
+}
+
+.user-settings .settings-edit:hover {
+    color: #ffcc34;
+}
+
+.user-settings .settings-edit span {
+    color: #ccc;
+    font-weight: 900;
+}
+
+.user-review-info h4 a {
+    color: black;
+    text-decoration: none;
+}
+
+.user-review-info h4 a:hover {
+    color: #ffcc34;
+}
+
+.user-review-actions .edit,
+.user-review-actions .delete {
+    border: none;
+    background-color: white;
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.user-review-actions .edit:hover {
+    color: #ffcc34;
+}
+
+
+.user-review-actions .delete:hover {
+    color: red;
+}
+  
+.user-review-date {
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+.count-reviews-number {
+    font-weight: bold;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 0px;
+}
+  
+.pagination button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: black;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    padding: 6px 10px;
+}
+
+.pagination button:hover {
+    color: white;
+    background-color: #ffd965;
+}
+
+.pagination button.active {
+    font-weight: bold;
+    color: white;
+    border: white;
+    background-color: #ffcc34;
+}
+
+.pagination button.active:hover {
+    color: white;
+    border: white;
+    background-color: #cea52a;
+}
+
+.h4-no-reviews {
+    font-size: 20px;
+    font-weight: 400;
+    padding-top: 10px;
+}
+
+.h4-no-reviews a {
+    color: #ffcc34;
+    font-weight: bold;
+}
+
+.h4-no-reviews a:hover {
+    text-decoration: underline;
+}

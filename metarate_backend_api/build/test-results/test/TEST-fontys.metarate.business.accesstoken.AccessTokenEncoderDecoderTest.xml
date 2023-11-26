@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.accesstoken.AccessTokenEncoderDecoderTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:46" hostname="DESKTOP-MDH7F45" time="0.51">
+  <properties/>
+  <testcase name="testDecode_ValidToken()" classname="fontys.metarate.business.accesstoken.AccessTokenEncoderDecoderTest" time="0.501"/>
+  <testcase name="testEncode()" classname="fontys.metarate.business.accesstoken.AccessTokenEncoderDecoderTest" time="0.002"/>
+  <testcase name="testDecode_InvalidToken()" classname="fontys.metarate.business.accesstoken.AccessTokenEncoderDecoderTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

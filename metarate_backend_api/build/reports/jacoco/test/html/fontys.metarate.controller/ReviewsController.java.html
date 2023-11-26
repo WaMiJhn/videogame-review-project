@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReviewsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.controller</a> &gt; <span class="el_source">ReviewsController.java</span></div><h1>ReviewsController.java</h1><pre class="source lang-java linenums">package fontys.metarate.controller;
+
+import fontys.metarate.business.*;
+import fontys.metarate.configuration.security.isauthenticated.IsAuthenticated;
+import fontys.metarate.domain.review.*;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
+@RestController
+@RequestMapping(&quot;/reviews&quot;)
+@CrossOrigin(origins = &quot;http://localhost:3000&quot;)
+<span class="nc" id="L17">@AllArgsConstructor</span>
+public class ReviewsController {
+    private final CreateReviewUseCase createReviewUseCase;
+    private final GetReviewsUseCase getReviewsUseCase;
+    private final UpdateReviewUseCase updateReviewUseCase;
+    private final DeleteReviewUseCase deleteReviewUseCase;
+    private final GetCountReviewsByGameUseCase getCountReviewsByGameUseCase;
+    private final GetCountReviewsByUserUseCase getCountReviewsByUserUseCase;
+
+    @GetMapping
+    public ResponseEntity&lt;GetAllReviewsResponse&gt; getAllReviews(@RequestParam(required = false) String username,
+                                                               @RequestParam(required = false) Long gameId,
+                                                               @RequestParam(defaultValue = &quot;0&quot;) int page,
+                                                               @RequestParam(defaultValue = &quot;5&quot;) int size) {
+<span class="nc" id="L31">        GetAllReviewsRequest request = GetAllReviewsRequest.builder()</span>
+<span class="nc" id="L32">                .username(username)</span>
+<span class="nc" id="L33">                .gameId(gameId)</span>
+<span class="nc" id="L34">                .page(page)</span>
+<span class="nc" id="L35">                .size(size)</span>
+<span class="nc" id="L36">                .build();</span>
+<span class="nc" id="L37">        GetAllReviewsResponse response = getReviewsUseCase.getReviews(request);</span>
+<span class="nc" id="L38">        return ResponseEntity.ok(response);</span>
+    }
+
+    @IsAuthenticated
+    @PostMapping()
+    public ResponseEntity&lt;CreateReviewResponse&gt; createReview(@RequestBody @Valid CreateReviewRequest request) {
+<span class="nc" id="L44">        CreateReviewResponse response = createReviewUseCase.createReview(request);</span>
+<span class="nc" id="L45">        return ResponseEntity.status(HttpStatus.CREATED).body(response);</span>
+    }
+
+    @IsAuthenticated
+    @Transactional
+    @PutMapping(&quot;{reviewId}&quot;)
+    public ResponseEntity&lt;Void&gt; updateReview(@PathVariable(&quot;reviewId&quot;) Long reviewId,
+                                             @RequestBody @Valid UpdateReviewRequest request) {
+<span class="nc" id="L53">        request.setId(reviewId);</span>
+<span class="nc" id="L54">        updateReviewUseCase.updateReview(request);</span>
+<span class="nc" id="L55">        return ResponseEntity.noContent().build();</span>
+    }
+    @IsAuthenticated
+    @DeleteMapping(&quot;{reviewId}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteReview(@PathVariable Long reviewId) {
+<span class="nc" id="L60">        deleteReviewUseCase.deleteReview(reviewId);</span>
+<span class="nc" id="L61">        return ResponseEntity.noContent().build();</span>
+    }
+    @GetMapping(&quot;/{gameId}/count-reviews-by-game&quot;)
+    public Long getCountReviews(@PathVariable(&quot;gameId&quot;) Long gameId) {
+<span class="nc" id="L65">        return getCountReviewsByGameUseCase.getCountReviewsByGameId(gameId);</span>
+    }
+    @GetMapping(&quot;/{username}/count-reviews-by-user&quot;)
+    public Long getCountReviewsByUser(@PathVariable(&quot;username&quot;) String username) {
+<span class="nc" id="L69">        return getCountReviewsByUserUseCase.getCountReviewsByUser(username);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

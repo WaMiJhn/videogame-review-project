@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.review.UpdateReviewUseCaseTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.114">
+  <properties/>
+  <testcase name="updateReview_shouldUpdateReviewFields()" classname="fontys.metarate.business.review.UpdateReviewUseCaseTest" time="0.109"/>
+  <testcase name="updateReview_shouldThrowReviewNotFoundExceptionWhenReviewNotFound()" classname="fontys.metarate.business.review.UpdateReviewUseCaseTest" time="0.002"/>
+  <testcase name="updateReview_shouldThrowUnauthorizedDataAccessExceptionWhenReviewNotOwnedByUser()" classname="fontys.metarate.business.review.UpdateReviewUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[23:10:47.776 [Test worker] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

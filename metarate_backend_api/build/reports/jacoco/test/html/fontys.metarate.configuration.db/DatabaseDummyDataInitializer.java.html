@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseDummyDataInitializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.configuration.db</a> &gt; <span class="el_source">DatabaseDummyDataInitializer.java</span></div><h1>DatabaseDummyDataInitializer.java</h1><pre class="source lang-java linenums">package fontys.metarate.configuration.db;
+
+import fontys.metarate.persistence.GameRepository;
+import fontys.metarate.persistence.GenreRepository;
+import fontys.metarate.persistence.ReviewRepository;
+import fontys.metarate.persistence.UserRepository;
+import fontys.metarate.persistence.entity.*;
+import lombok.AllArgsConstructor;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
+<span class="nc" id="L20">@AllArgsConstructor</span>
+@Component
+public class DatabaseDummyDataInitializer {
+
+    private final GenreRepository genreRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
+    private final GameRepository gameRepository;
+
+    @EventListener(ApplicationReadyEvent.class)
+    @Transactional
+    public void populateDatabaseInitialDummyData() {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (isDatabaseEmpty()) {</span>
+<span class="nc" id="L34">            insertGenres();</span>
+<span class="nc" id="L35">            insertAdminUser();</span>
+<span class="nc" id="L36">            insertNormalUser();</span>
+<span class="nc" id="L37">            insertGames();</span>
+<span class="nc" id="L38">            insertReviews();</span>
+        }
+<span class="nc" id="L40">    }</span>
+
+    private boolean isDatabaseEmpty() {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        return genreRepository.count() == 0;</span>
+    }
+
+    private void insertGenres() {
+<span class="nc" id="L47">        List&lt;GenreEntity&gt; genres = Arrays.asList(</span>
+<span class="nc" id="L48">                GenreEntity.builder().name(&quot;Action&quot;).build(),</span>
+<span class="nc" id="L49">                GenreEntity.builder().name(&quot;Adventure&quot;).build(),</span>
+<span class="nc" id="L50">                GenreEntity.builder().name(&quot;RPG&quot;).build(),</span>
+<span class="nc" id="L51">                GenreEntity.builder().name(&quot;Simulation&quot;).build(),</span>
+<span class="nc" id="L52">                GenreEntity.builder().name(&quot;Strategy&quot;).build(),</span>
+<span class="nc" id="L53">                GenreEntity.builder().name(&quot;Sports&quot;).build(),</span>
+<span class="nc" id="L54">                GenreEntity.builder().name(&quot;Racing&quot;).build(),</span>
+<span class="nc" id="L55">                GenreEntity.builder().name(&quot;Fighting&quot;).build(),</span>
+<span class="nc" id="L56">                GenreEntity.builder().name(&quot;Platformer&quot;).build(),</span>
+<span class="nc" id="L57">                GenreEntity.builder().name(&quot;Puzzle&quot;).build()</span>
+        );
+
+<span class="nc" id="L60">        genreRepository.saveAll(genres);</span>
+<span class="nc" id="L61">    }</span>
+
+    private void insertAdminUser() {
+<span class="nc" id="L64">        UserEntity adminUser = UserEntity.builder()</span>
+<span class="nc" id="L65">                .username(&quot;admin&quot;)</span>
+<span class="nc" id="L66">                .password(passwordEncoder.encode(&quot;123&quot;))</span>
+<span class="nc" id="L67">                .profilePic(&quot;https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg&quot;)</span>
+<span class="nc" id="L68">                .build();</span>
+
+<span class="nc" id="L70">        UserRoleEntity adminRole = UserRoleEntity.builder()</span>
+<span class="nc" id="L71">                .role(RoleEnum.ADMIN)</span>
+<span class="nc" id="L72">                .user(adminUser)</span>
+<span class="nc" id="L73">                .build();</span>
+<span class="nc" id="L74">        UserRoleEntity userRole = UserRoleEntity.builder()</span>
+<span class="nc" id="L75">                .role(RoleEnum.USER)</span>
+<span class="nc" id="L76">                .user(adminUser)</span>
+<span class="nc" id="L77">                .build();</span>
+
+<span class="nc" id="L79">        adminUser.setUserRoles(Set.of(adminRole, userRole));</span>
+<span class="nc" id="L80">        userRepository.save(adminUser);</span>
+<span class="nc" id="L81">    }</span>
+
+    private void insertNormalUser() {
+<span class="nc" id="L84">        UserEntity user1 = UserEntity.builder()</span>
+<span class="nc" id="L85">                .username(&quot;user1&quot;)</span>
+<span class="nc" id="L86">                .password(passwordEncoder.encode(&quot;123&quot;))</span>
+<span class="nc" id="L87">                .profilePic(&quot;https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg&quot;)</span>
+<span class="nc" id="L88">                .build();</span>
+
+<span class="nc" id="L90">        UserEntity user2 = UserEntity.builder()</span>
+<span class="nc" id="L91">                .username(&quot;user2&quot;)</span>
+<span class="nc" id="L92">                .password(passwordEncoder.encode(&quot;123&quot;))</span>
+<span class="nc" id="L93">                .profilePic(&quot;https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg&quot;)</span>
+<span class="nc" id="L94">                .build();</span>
+<span class="nc" id="L95">        UserEntity user3 = UserEntity.builder()</span>
+<span class="nc" id="L96">                .username(&quot;user3&quot;)</span>
+<span class="nc" id="L97">                .password(passwordEncoder.encode(&quot;123&quot;))</span>
+<span class="nc" id="L98">                .profilePic(&quot;https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg&quot;)</span>
+<span class="nc" id="L99">                .build();</span>
+
+<span class="nc" id="L101">        UserEntity user4 = UserEntity.builder()</span>
+<span class="nc" id="L102">                .username(&quot;user4&quot;)</span>
+<span class="nc" id="L103">                .password(passwordEncoder.encode(&quot;123&quot;))</span>
+<span class="nc" id="L104">                .profilePic(&quot;https://soccerpointeclaire.com/wp-content/uploads/2021/06/default-profile-pic-e1513291410505.jpg&quot;)</span>
+<span class="nc" id="L105">                .build();</span>
+
+<span class="nc" id="L107">        UserRoleEntity userRole1 = UserRoleEntity.builder()</span>
+<span class="nc" id="L108">                .role(RoleEnum.USER)</span>
+<span class="nc" id="L109">                .user(user1)</span>
+<span class="nc" id="L110">                .build();</span>
+<span class="nc" id="L111">        UserRoleEntity userRole2 = UserRoleEntity.builder()</span>
+<span class="nc" id="L112">                .role(RoleEnum.USER)</span>
+<span class="nc" id="L113">                .user(user2)</span>
+<span class="nc" id="L114">                .build();</span>
+<span class="nc" id="L115">        UserRoleEntity userRole3 = UserRoleEntity.builder()</span>
+<span class="nc" id="L116">                .role(RoleEnum.USER)</span>
+<span class="nc" id="L117">                .user(user3)</span>
+<span class="nc" id="L118">                .build();</span>
+<span class="nc" id="L119">        UserRoleEntity userRole4 = UserRoleEntity.builder()</span>
+<span class="nc" id="L120">                .role(RoleEnum.USER)</span>
+<span class="nc" id="L121">                .user(user4)</span>
+<span class="nc" id="L122">                .build();</span>
+
+
+<span class="nc" id="L125">        user1.setUserRoles(Set.of(userRole1));</span>
+<span class="nc" id="L126">        user2.setUserRoles(Set.of(userRole2));</span>
+<span class="nc" id="L127">        user3.setUserRoles(Set.of(userRole3));</span>
+<span class="nc" id="L128">        user4.setUserRoles(Set.of(userRole4));</span>
+<span class="nc" id="L129">        userRepository.save(user1);</span>
+<span class="nc" id="L130">        userRepository.save(user2);</span>
+<span class="nc" id="L131">        userRepository.save(user3);</span>
+<span class="nc" id="L132">        userRepository.save(user4);</span>
+<span class="nc" id="L133">    }</span>
+    private void insertGames() {
+<span class="nc" id="L135">        GenreEntity strategyGenre = genreRepository.findByName(&quot;Strategy&quot;);</span>
+<span class="nc" id="L136">        GenreEntity actionGenre = genreRepository.findByName(&quot;Action&quot;);</span>
+<span class="nc" id="L137">        GenreEntity rpgGenre = genreRepository.findByName(&quot;RPG&quot;);</span>
+<span class="nc" id="L138">        GenreEntity platformerGenre = genreRepository.findByName(&quot;Platformer&quot;);</span>
+
+<span class="nc" id="L140">        GameEntity spiderman = GameEntity.builder()</span>
+<span class="nc" id="L141">                .title(&quot;Marvel's Spider-Man: Miles Morales&quot;)</span>
+<span class="nc" id="L142">                .developer(&quot;Playstation Studios&quot;)</span>
+<span class="nc" id="L143">                .genre(actionGenre)</span>
+<span class="nc" id="L144">                .releaseYear(2020)</span>
+<span class="nc" id="L145">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L148">                .imageUrl(&quot;https://image.api.playstation.com/vulcan/ap/rnd/202008/1020/T45iRN1bhiWcJUzST6UFGBvO.png&quot;)</span>
+<span class="nc" id="L149">                .trailerUrl(&quot;https://www.youtube.com/embed/NTunTURbyUU&quot;)</span>
+<span class="nc" id="L150">                .build();</span>
+
+<span class="nc" id="L152">        GameEntity roblox = GameEntity.builder()</span>
+<span class="nc" id="L153">                .title(&quot;Roblox&quot;)</span>
+<span class="nc" id="L154">                .developer(&quot;Roblox Corporation&quot;)</span>
+<span class="nc" id="L155">                .genre(strategyGenre)</span>
+<span class="nc" id="L156">                .releaseYear(2020)</span>
+<span class="nc" id="L157">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L160">                .imageUrl(&quot;https://kaartdirect.nl/storage/thumbnails/default/4r/rb/9ca3u4ys84ogosc0kscc.png?p=kaartdirect.nl%2Fimages%2Fblogs%2Fhaal-meer-uit-roblox-met-een-roblox-gift-card1625854387.png&amp;s=https&amp;widen=840&quot;)</span>
+<span class="nc" id="L161">                .trailerUrl(&quot;https://www.youtube.com/embed/eAvXhNlO-rA&quot;)</span>
+<span class="nc" id="L162">                .build();</span>
+
+<span class="nc" id="L164">        GameEntity clashOfClans = GameEntity.builder()</span>
+<span class="nc" id="L165">                .title(&quot;Clash of Clans&quot;)</span>
+<span class="nc" id="L166">                .developer(&quot;Supercell&quot;)</span>
+<span class="nc" id="L167">                .genre(strategyGenre)</span>
+<span class="nc" id="L168">                .releaseYear(2020)</span>
+<span class="nc" id="L169">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L172">                .imageUrl(&quot;https://clashofclans.com/uploaded-images-blog/clash-of-clans-app-icon.jpg?mtime=20181025123934&quot;)</span>
+<span class="nc" id="L173">                .trailerUrl(&quot;https://www.youtube.com/embed/XH3Xu1-cvII&quot;)</span>
+<span class="nc" id="L174">                .build();</span>
+
+<span class="nc" id="L176">        GameEntity minecraft = GameEntity.builder()</span>
+<span class="nc" id="L177">                .title(&quot;Minecraft&quot;)</span>
+<span class="nc" id="L178">                .developer(&quot;Microsoft&quot;)</span>
+<span class="nc" id="L179">                .genre(rpgGenre)</span>
+<span class="nc" id="L180">                .releaseYear(2020)</span>
+<span class="nc" id="L181">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L184">                .imageUrl(&quot;https://image.api.playstation.com/vulcan/img/cfn/11307x4B5WLoVoIUtdewG4uJ_YuDRTwBxQy0qP8ylgazLLc01PBxbsFG1pGOWmqhZsxnNkrU3GXbdXIowBAstzlrhtQ4LCI4.png&quot;)</span>
+<span class="nc" id="L185">                .trailerUrl(&quot;https://www.youtube.com/embed/MmB9b5njVbA&quot;)</span>
+<span class="nc" id="L186">                .build();</span>
+<span class="nc" id="L187">        GameEntity fortnite = GameEntity.builder()</span>
+<span class="nc" id="L188">                .title(&quot;Fortnite&quot;)</span>
+<span class="nc" id="L189">                .developer(&quot;Epic Games&quot;)</span>
+<span class="nc" id="L190">                .genre(actionGenre)</span>
+<span class="nc" id="L191">                .releaseYear(2018)</span>
+<span class="nc" id="L192">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L195">                .imageUrl(&quot;https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW10idH?ver=489b&quot;)</span>
+<span class="nc" id="L196">                .trailerUrl(&quot;https://www.youtube.com/embed/AzP22cDSo-A&quot;)</span>
+<span class="nc" id="L197">                .build();</span>
+<span class="nc" id="L198">        GameEntity subwaysurf = GameEntity.builder()</span>
+<span class="nc" id="L199">                .title(&quot;Subway Surfers&quot;)</span>
+<span class="nc" id="L200">                .developer(&quot;Kiloo&quot;)</span>
+<span class="nc" id="L201">                .genre(platformerGenre)</span>
+<span class="nc" id="L202">                .releaseYear(2012)</span>
+<span class="nc" id="L203">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L206">                .imageUrl(&quot;https://assets-prd.ignimgs.com/2023/03/01/subwaysurfers-1677630205274.jpg&quot;)</span>
+<span class="nc" id="L207">                .trailerUrl(&quot;https://www.youtube.com/embed/fGy-x3H-nxU&quot;)</span>
+<span class="nc" id="L208">                .build();</span>
+<span class="nc" id="L209">        GameEntity clubpenguin = GameEntity.builder()</span>
+<span class="nc" id="L210">                .title(&quot;Club Penguin&quot;)</span>
+<span class="nc" id="L211">                .developer(&quot;RocketSnail Games&quot;)</span>
+<span class="nc" id="L212">                .genre(platformerGenre)</span>
+<span class="nc" id="L213">                .releaseYear(2005)</span>
+<span class="nc" id="L214">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L217">                .imageUrl(&quot;https://globalnews.ca/wp-content/uploads/2018/09/clubpenguin.jpg?quality=85&amp;strip=all&quot;)</span>
+<span class="nc" id="L218">                .trailerUrl(&quot;https://www.youtube.com/embed/tEbuKuNUwhQ&quot;)</span>
+<span class="nc" id="L219">                .build();</span>
+<span class="nc" id="L220">        GameEntity amongus = GameEntity.builder()</span>
+<span class="nc" id="L221">                .title(&quot;Among Us&quot;)</span>
+<span class="nc" id="L222">                .developer(&quot;InnerSloth LLC&quot;)</span>
+<span class="nc" id="L223">                .genre(strategyGenre)</span>
+<span class="nc" id="L224">                .releaseYear(2018)</span>
+<span class="nc" id="L225">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L228">                .imageUrl(&quot;https://i0.wp.com/news.xbox.com/en-us/wp-content/uploads/sites/2/2021/12/Hero.jpg?resize=1200%2C675&amp;ssl=1&quot;)</span>
+<span class="nc" id="L229">                .trailerUrl(&quot;https://www.youtube.com/embed/0YKjFoGxbec&quot;)</span>
+<span class="nc" id="L230">                .build();</span>
+<span class="nc" id="L231">        GameEntity eldenring = GameEntity.builder()</span>
+<span class="nc" id="L232">                .title(&quot;Elden Ring&quot;)</span>
+<span class="nc" id="L233">                .developer(&quot;From Software&quot;)</span>
+<span class="nc" id="L234">                .genre(rpgGenre)</span>
+<span class="nc" id="L235">                .releaseYear(2022)</span>
+<span class="nc" id="L236">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L239">                .imageUrl(&quot;https://image.api.playstation.com/vulcan/ap/rnd/202107/1612/Y5RHNmzAtc6sRYwZlYiKHAxN.png&quot;)</span>
+<span class="nc" id="L240">                .trailerUrl(&quot;https://www.youtube.com/embed/E3Huy2cdih0&quot;)</span>
+<span class="nc" id="L241">                .build();</span>
+<span class="nc" id="L242">        GameEntity undertale = GameEntity.builder()</span>
+<span class="nc" id="L243">                .title(&quot;Undertale&quot;)</span>
+<span class="nc" id="L244">                .developer(&quot;tobyfox&quot;)</span>
+<span class="nc" id="L245">                .genre(rpgGenre)</span>
+<span class="nc" id="L246">                .releaseYear(2015)</span>
+<span class="nc" id="L247">                .description(&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tincidunt lacus sed elementum vehicula. Etiam laoreet vehicula ipsum, nec sagittis dui sollicitudin ut. Nulla volutpat accumsan orci, at hendrerit mauris tempus semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac arcu sed lectus accumsan viverra. Nunc iaculis sem et interdum accumsan. Aenean sed sagittis urna. Etiam vitae gravida arcu, ut accumsan elit.\n&quot; +</span>
+                        &quot;\n&quot; +
+                        &quot;Maecenas accumsan commodo eleifend. Maecenas dictum, nulla quis aliquam dignissim, nulla massa volutpat sapien, sit amet consequat metus dolor id leo. Nam porttitor a metus tincidunt maximus. Proin imperdiet sagittis justo et laoreet. Nam imperdiet iaculis luctus. Pellentesque ut euismod risus. Nam nec metus a purus egestas bibendum. Suspendisse potenti. Aenean faucibus elit eget velit tincidunt, eu aliquam nibh tristique. Aliquam vitae tincidunt metus. Morbi non convallis arcu, non suscipit diam. Morbi tempus nulla consequat, vehicula erat ut, semper ante. Suspendisse egestas ligula nec libero imperdiet, at molestie risus congue. Aenean molestie magna a magna ultricies, sit amet posuere lorem tincidunt. Maecenas semper tortor eros, et imperdiet turpis lacinia sed.&quot;)
+<span class="nc" id="L250">                .imageUrl(&quot;https://m.media-amazon.com/images/M/MV5BNzkwZDliNGEtMDNkNi00ODcxLWI1N2UtNDE1NmZlM2QyMTY4XkEyXkFqcGdeQXVyMTA0MTM5NjI2._V1_.jpg&quot;)</span>
+<span class="nc" id="L251">                .trailerUrl(&quot;https://www.youtube.com/embed/ycsnBIX8wTU&quot;)</span>
+<span class="nc" id="L252">                .build();</span>
+
+<span class="nc" id="L254">        gameRepository.saveAll(List.of(amongus, spiderman, eldenring, clubpenguin, fortnite, undertale, subwaysurf, clashOfClans, minecraft, roblox));</span>
+<span class="nc" id="L255">    }</span>
+
+    private void insertReviews() {
+        GameEntity spiderman;
+<span class="nc" id="L259">        List&lt;GameEntity&gt; games1 = gameRepository.findByTitleContainingIgnoreCase(&quot;spider&quot;);</span>
+<span class="nc" id="L260">        UserEntity user = userRepository.findByUsername(&quot;user1&quot;);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        if (!games1.isEmpty()) {</span>
+<span class="nc" id="L262">            spiderman = games1.get(0);</span>
+<span class="nc" id="L263">            ReviewEntity review = ReviewEntity.builder()</span>
+<span class="nc" id="L264">                    .game(spiderman)</span>
+<span class="nc" id="L265">                    .user(user)</span>
+<span class="nc" id="L266">                    .content(&quot;Lorem ipsum&quot;)</span>
+<span class="nc" id="L267">                    .date(LocalDateTime.now())</span>
+<span class="nc" id="L268">                    .rating(10)</span>
+<span class="nc" id="L269">                    .build();</span>
+<span class="nc" id="L270">            reviewRepository.save(review);</span>
+        }
+        GameEntity amongus;
+<span class="nc" id="L273">        List&lt;GameEntity&gt; games2 = gameRepository.findByTitleContainingIgnoreCase(&quot;among&quot;);</span>
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        if (!games2.isEmpty()) {</span>
+<span class="nc" id="L275">            amongus = games2.get(0);</span>
+<span class="nc" id="L276">            ReviewEntity review = ReviewEntity.builder()</span>
+<span class="nc" id="L277">                    .game(amongus)</span>
+<span class="nc" id="L278">                    .user(user)</span>
+<span class="nc" id="L279">                    .content(&quot;Lorem ipsum&quot;)</span>
+<span class="nc" id="L280">                    .date(LocalDateTime.now())</span>
+<span class="nc" id="L281">                    .rating(10)</span>
+<span class="nc" id="L282">                    .build();</span>
+<span class="nc" id="L283">            reviewRepository.save(review);</span>
+        }
+        GameEntity elden;
+<span class="nc" id="L286">        List&lt;GameEntity&gt; games3 = gameRepository.findByTitleContainingIgnoreCase(&quot;elden&quot;);</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">        if (!games3.isEmpty()) {</span>
+<span class="nc" id="L288">            elden = games3.get(0);</span>
+<span class="nc" id="L289">            ReviewEntity review = ReviewEntity.builder()</span>
+<span class="nc" id="L290">                    .game(elden)</span>
+<span class="nc" id="L291">                    .user(user)</span>
+<span class="nc" id="L292">                    .content(&quot;Lorem ipsum&quot;)</span>
+<span class="nc" id="L293">                    .date(LocalDateTime.now())</span>
+<span class="nc" id="L294">                    .rating(10)</span>
+<span class="nc" id="L295">                    .build();</span>
+<span class="nc" id="L296">            reviewRepository.save(review);</span>
+        }
+        GameEntity fortnite;
+<span class="nc" id="L299">        List&lt;GameEntity&gt; games4 = gameRepository.findByTitleContainingIgnoreCase(&quot;fortnite&quot;);</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">        if (!games4.isEmpty()) {</span>
+<span class="nc" id="L301">            fortnite = games4.get(0);</span>
+<span class="nc" id="L302">            ReviewEntity review = ReviewEntity.builder()</span>
+<span class="nc" id="L303">                    .game(fortnite)</span>
+<span class="nc" id="L304">                    .user(user)</span>
+<span class="nc" id="L305">                    .content(&quot;Lorem ipsum&quot;)</span>
+<span class="nc" id="L306">                    .date(LocalDateTime.now())</span>
+<span class="nc" id="L307">                    .rating(9)</span>
+<span class="nc" id="L308">                    .build();</span>
+<span class="nc" id="L309">            reviewRepository.save(review);</span>
+        }
+        GameEntity club;
+<span class="nc" id="L312">        List&lt;GameEntity&gt; games5 = gameRepository.findByTitleContainingIgnoreCase(&quot;club&quot;);</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">        if (!games5.isEmpty()) {</span>
+<span class="nc" id="L314">            club = games5.get(0);</span>
+<span class="nc" id="L315">            ReviewEntity review = ReviewEntity.builder()</span>
+<span class="nc" id="L316">                    .game(club)</span>
+<span class="nc" id="L317">                    .user(user)</span>
+<span class="nc" id="L318">                    .content(&quot;Lorem ipsum&quot;)</span>
+<span class="nc" id="L319">                    .date(LocalDateTime.now())</span>
+<span class="nc" id="L320">                    .rating(9)</span>
+<span class="nc" id="L321">                    .build();</span>
+<span class="nc" id="L322">            reviewRepository.save(review);</span>
+        }
+        GameEntity roblox;
+<span class="nc" id="L325">        List&lt;GameEntity&gt; games6 = gameRepository.findByTitleContainingIgnoreCase(&quot;roblox&quot;);</span>
+<span class="nc bnc" id="L326" title="All 2 branches missed.">        if (!games6.isEmpty()) {</span>
+<span class="nc" id="L327">            roblox = games6.get(0);</span>
+<span class="nc" id="L328">            ReviewEntity review = ReviewEntity.builder()</span>
+<span class="nc" id="L329">                    .game(roblox)</span>
+<span class="nc" id="L330">                    .user(user)</span>
+<span class="nc" id="L331">                    .content(&quot;Lorem ipsum&quot;)</span>
+<span class="nc" id="L332">                    .date(LocalDateTime.now())</span>
+<span class="nc" id="L333">                    .rating(10)</span>
+<span class="nc" id="L334">                    .build();</span>
+<span class="nc" id="L335">            reviewRepository.save(review);</span>
+        }
+<span class="nc" id="L337">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

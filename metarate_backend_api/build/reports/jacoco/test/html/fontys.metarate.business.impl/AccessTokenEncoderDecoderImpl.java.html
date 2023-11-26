@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccessTokenEncoderDecoderImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.business.impl</a> &gt; <span class="el_source">AccessTokenEncoderDecoderImpl.java</span></div><h1>AccessTokenEncoderDecoderImpl.java</h1><pre class="source lang-java linenums">package fontys.metarate.business.impl;
+
+import fontys.metarate.business.AccessTokenDecoder;
+import fontys.metarate.business.AccessTokenEncoder;
+import fontys.metarate.business.exception.InvalidAccessTokenException;
+import fontys.metarate.domain.AccessToken;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.security.Key;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, AccessTokenDecoder {
+    private final Key key;
+
+<span class="fc" id="L26">    public AccessTokenEncoderDecoderImpl(@Value(&quot;${jwt.secret}&quot;) String secretKey) {</span>
+<span class="fc" id="L27">        byte[] keyBytes = Decoders.BASE64.decode(secretKey);</span>
+<span class="fc" id="L28">        this.key = Keys.hmacShaKeyFor(keyBytes);</span>
+<span class="fc" id="L29">    }</span>
+
+    @Override
+    public String encode(AccessToken accessToken) {
+<span class="fc" id="L33">        Map&lt;String, Object&gt; claimsMap = new HashMap&lt;&gt;();</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (!CollectionUtils.isEmpty(accessToken.getRoles())) {</span>
+<span class="fc" id="L35">            claimsMap.put(&quot;roles&quot;, accessToken.getRoles());</span>
+        }
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (accessToken.getUserId() != null) {</span>
+<span class="fc" id="L38">            claimsMap.put(&quot;id&quot;, accessToken.getUserId());</span>
+        }
+
+<span class="fc" id="L41">        Instant now = Instant.now();</span>
+<span class="fc" id="L42">        return Jwts.builder()</span>
+<span class="fc" id="L43">                .setSubject(accessToken.getSubject())</span>
+<span class="fc" id="L44">                .setIssuedAt(Date.from(now))</span>
+<span class="fc" id="L45">                .setExpiration(Date.from(now.plus(30, ChronoUnit.MINUTES)))</span>
+<span class="fc" id="L46">                .addClaims(claimsMap)</span>
+<span class="fc" id="L47">                .signWith(key)</span>
+<span class="fc" id="L48">                .compact();</span>
+    }
+
+    @Override
+    public AccessToken decode(String accessTokenEncoded) {
+        try {
+<span class="fc" id="L54">            JwtParser jwtParser = Jwts.parserBuilder().setSigningKey(key).build();</span>
+<span class="fc" id="L55">            Jws&lt;Claims&gt; jws = jwtParser.parseClaimsJws(accessTokenEncoded);</span>
+
+<span class="fc" id="L57">            Claims claims = jws.getBody();</span>
+<span class="fc" id="L58">            List&lt;String&gt; roles = claims.get(&quot;roles&quot;, List.class);</span>
+
+<span class="fc" id="L60">            return AccessToken.builder()</span>
+<span class="fc" id="L61">                    .subject(claims.getSubject())</span>
+<span class="fc" id="L62">                    .roles(roles)</span>
+<span class="fc" id="L63">                    .userId(claims.get(&quot;id&quot;, Long.class))</span>
+<span class="fc" id="L64">                    .build();</span>
+<span class="fc" id="L65">        } catch (JwtException e) {</span>
+<span class="fc" id="L66">            throw new InvalidAccessTokenException(e.getMessage());</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

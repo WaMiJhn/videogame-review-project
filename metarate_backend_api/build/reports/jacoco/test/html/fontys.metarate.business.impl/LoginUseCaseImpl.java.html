@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginUseCaseImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.business.impl</a> &gt; <span class="el_source">LoginUseCaseImpl.java</span></div><h1>LoginUseCaseImpl.java</h1><pre class="source lang-java linenums">package fontys.metarate.business.impl;
+
+
+import fontys.metarate.business.AccessTokenEncoder;
+import fontys.metarate.business.LoginUseCase;
+import fontys.metarate.business.exception.InvalidCredentialsException;
+import fontys.metarate.domain.AccessToken;
+import fontys.metarate.domain.login.LoginRequest;
+import fontys.metarate.domain.login.LoginResponse;
+import fontys.metarate.persistence.UserRepository;
+import fontys.metarate.persistence.entity.UserEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L19">@RequiredArgsConstructor</span>
+public class LoginUseCaseImpl implements LoginUseCase {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AccessTokenEncoder accessTokenEncoder;
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) {
+<span class="fc" id="L27">        UserEntity user = userRepository.findByUsername(loginRequest.getUsername());</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L29">            throw new InvalidCredentialsException();</span>
+        }
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (!matchesPassword(loginRequest.getPassword(), user.getPassword())) {</span>
+<span class="fc" id="L33">            throw new InvalidCredentialsException();</span>
+        }
+
+<span class="fc" id="L36">        String accessToken = generateAccessToken(user);</span>
+<span class="fc" id="L37">        return LoginResponse.builder().accessToken(accessToken).build();</span>
+    }
+
+    private boolean matchesPassword(String rawPassword, String encodedPassword) {
+<span class="fc" id="L41">        return passwordEncoder.matches(rawPassword, encodedPassword);</span>
+    }
+
+    private String generateAccessToken(UserEntity user) {
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">        Long userId = user.getId() != null ? user.getId() : null;</span>
+<span class="fc" id="L46">        List&lt;String&gt; roles = user.getUserRoles().stream()</span>
+<span class="fc" id="L47">                .map(userRole -&gt; userRole.getRole().toString())</span>
+<span class="fc" id="L48">                .toList();</span>
+
+<span class="fc" id="L50">        return accessTokenEncoder.encode(</span>
+<span class="fc" id="L51">                AccessToken.builder()</span>
+<span class="fc" id="L52">                        .subject(user.getUsername())</span>
+<span class="fc" id="L53">                        .roles(roles)</span>
+<span class="fc" id="L54">                        .userId(userId)</span>
+<span class="fc" id="L55">                        .build());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

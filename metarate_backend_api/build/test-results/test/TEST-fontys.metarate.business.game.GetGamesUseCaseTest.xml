@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.game.GetGamesUseCaseTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.014">
+  <properties/>
+  <testcase name="getGames_shouldReturnAllGamesConverted()" classname="fontys.metarate.business.game.GetGamesUseCaseTest" time="0.008"/>
+  <testcase name="getGames_shouldReturnFilteredGamesByName()" classname="fontys.metarate.business.game.GetGamesUseCaseTest" time="0.001"/>
+  <testcase name="getGames_shouldReturnFilteredGamesByGenreAndName()" classname="fontys.metarate.business.game.GetGamesUseCaseTest" time="0.001"/>
+  <testcase name="getGames_shouldReturnFilteredGamesByGenre()" classname="fontys.metarate.business.game.GetGamesUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

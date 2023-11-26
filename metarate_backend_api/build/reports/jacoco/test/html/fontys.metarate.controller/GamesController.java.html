@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GamesController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.controller</a> &gt; <span class="el_source">GamesController.java</span></div><h1>GamesController.java</h1><pre class="source lang-java linenums">package fontys.metarate.controller;
+
+import fontys.metarate.business.*;
+import fontys.metarate.configuration.security.isauthenticated.IsAuthenticated;
+import fontys.metarate.domain.game.*;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.util.Optional;
+
+@RestController
+@RequestMapping(&quot;/games&quot;)
+@CrossOrigin(origins = &quot;http://localhost:3000&quot;)
+<span class="nc" id="L19">@AllArgsConstructor</span>
+public class GamesController {
+    private final CreateGameUseCase createGameUseCase;
+    private final GetGamesUseCase getGamesUseCase;
+    private final UpdateGameUseCase updateGameUseCase;
+    private final DeleteGameUseCase deleteGameUseCase;
+    private final GetGameUseCase getGameUseCase;
+    private final GetAverageGameRatingUseCase getAverageGameRatingUseCase;
+    private final GetGamesWithHighRatingUseCase getGamesWithHighRatingUseCase;
+    private final GetCountGamesUseCase getCountGamesUseCase;
+
+    @GetMapping
+    public ResponseEntity&lt;GetAllGamesResponse&gt; getAllGames(@RequestParam(required = false) String genre,
+                                                           @RequestParam(required = false) String title,
+                                                           @RequestParam(defaultValue = &quot;0&quot;) int page,
+                                                           @RequestParam(defaultValue = &quot;50&quot;) int size){
+<span class="nc" id="L35">        GetAllGamesRequest request = GetAllGamesRequest.builder()</span>
+<span class="nc" id="L36">                .genreName(genre)</span>
+<span class="nc" id="L37">                .title(title)</span>
+<span class="nc" id="L38">                .page(page)</span>
+<span class="nc" id="L39">                .size(size)</span>
+<span class="nc" id="L40">                .build();</span>
+<span class="nc" id="L41">        GetAllGamesResponse response = getGamesUseCase.getGames(request);</span>
+<span class="nc" id="L42">        return ResponseEntity.ok(response);</span>
+    }
+
+    @GetMapping(&quot;{gameId}&quot;)
+    public ResponseEntity&lt;Game&gt; getGame(@PathVariable(value = &quot;gameId&quot;) final long id) {
+<span class="nc" id="L47">        final Optional&lt;Game&gt; gameOptional = getGameUseCase.getGame(id);</span>
+<span class="nc" id="L48">        return gameOptional.map(game -&gt; ResponseEntity.ok().body(game)).orElseGet(() -&gt; ResponseEntity.notFound().build());</span>
+    }
+
+    @IsAuthenticated
+    @RolesAllowed({&quot;ROLE_ADMIN&quot;})
+    @PostMapping()
+    public ResponseEntity&lt;CreateGameResponse&gt; createGame(@RequestBody @Valid CreateGameRequest request) {
+<span class="nc" id="L55">        CreateGameResponse response = createGameUseCase.createGame(request);</span>
+<span class="nc" id="L56">        return ResponseEntity.status(HttpStatus.CREATED).body(response);</span>
+    }
+    @IsAuthenticated
+    @RolesAllowed({&quot;ROLE_ADMIN&quot;})
+    @Transactional
+    @PutMapping(&quot;{gameId}&quot;)
+    public ResponseEntity&lt;Void&gt; updateGame(@PathVariable(&quot;gameId&quot;) long gameId,
+                                           @RequestBody @Valid UpdateGameRequest request) {
+<span class="nc" id="L64">        request.setId(gameId);</span>
+<span class="nc" id="L65">        updateGameUseCase.updateGame(request);</span>
+<span class="nc" id="L66">        return ResponseEntity.noContent().build();</span>
+    }
+    @IsAuthenticated
+    @RolesAllowed({&quot;ROLE_ADMIN&quot;})
+    @DeleteMapping(&quot;{gameId}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteGame(@PathVariable long gameId) {
+<span class="nc" id="L72">        deleteGameUseCase.deleteGame(gameId);</span>
+<span class="nc" id="L73">        return ResponseEntity.noContent().build();</span>
+    }
+    @GetMapping(&quot;/{gameId}/average-rating&quot;)
+    public Double getAverageRating(@PathVariable(&quot;gameId&quot;) Long gameId) {
+<span class="nc" id="L77">        return getAverageGameRatingUseCase.getAverageRatingByGameId(gameId);</span>
+    }
+    @GetMapping(&quot;/top-rated&quot;)
+    public ResponseEntity&lt;GetAllGamesResponse&gt; getGamesWithHighRating(@RequestParam(defaultValue = &quot;0&quot;) int page,
+                                                                      @RequestParam(defaultValue = &quot;10&quot;) int size) {
+<span class="nc" id="L82">        GetGamesWithHighRatingRequest request = GetGamesWithHighRatingRequest.builder()</span>
+<span class="nc" id="L83">                .page(page)</span>
+<span class="nc" id="L84">                .size(size)</span>
+<span class="nc" id="L85">                .build();</span>
+<span class="nc" id="L86">        GetAllGamesResponse response = getGamesWithHighRatingUseCase.getGamesWithHighRating(request);</span>
+<span class="nc" id="L87">        return ResponseEntity.ok(response);</span>
+    }
+    @GetMapping(&quot;/count&quot;)
+    public Long getCountGames(@RequestParam(required = false) String genre, @RequestParam(required = false) String title) {
+<span class="nc" id="L91">        GetCountGamesRequest request = GetCountGamesRequest.builder()</span>
+<span class="nc" id="L92">                .genre(genre)</span>
+<span class="nc" id="L93">                .title(title)</span>
+<span class="nc" id="L94">                .build();</span>
+<span class="nc" id="L95">        return getCountGamesUseCase.getCountGames(request);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

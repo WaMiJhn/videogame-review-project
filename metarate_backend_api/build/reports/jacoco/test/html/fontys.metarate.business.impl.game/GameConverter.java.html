@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameConverter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.business.impl.game</a> &gt; <span class="el_source">GameConverter.java</span></div><h1>GameConverter.java</h1><pre class="source lang-java linenums">package fontys.metarate.business.impl.game;
+
+import fontys.metarate.business.impl.genre.GenreConverter;
+import fontys.metarate.domain.game.Game;
+import fontys.metarate.persistence.entity.GameEntity;
+
+public final class GameConverter {
+    private GameConverter() {
+    }
+    public static Game convert(GameEntity game) {
+<span class="fc" id="L11">        return  Game.builder()</span>
+<span class="fc" id="L12">                .id(game.getId())</span>
+<span class="fc" id="L13">                .description(game.getDescription())</span>
+<span class="fc" id="L14">                .genre(GenreConverter.convert(game.getGenre()))</span>
+<span class="fc" id="L15">                .title(game.getTitle())</span>
+<span class="fc" id="L16">                .developer(game.getDeveloper())</span>
+<span class="fc" id="L17">                .releaseYear(game.getReleaseYear())</span>
+<span class="fc" id="L18">                .imageUrl(game.getImageUrl())</span>
+<span class="fc" id="L19">                .trailerUrl(game.getTrailerUrl())</span>
+<span class="fc" id="L20">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,73 @@
+
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+#confirmationform {
+    display: flex;
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .05s ease-in-out;
+}
+
+.close-button:hover{
+    transform: scale(1.1);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.confirmationform-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.confirmation-form-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.confirmbtn-yes,
+.confirmbtn-no {
+    float: flex-end;
+    width: 50px;
+    cursor: pointer;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.confirmbtn-no:hover,
+.confirmbtn-yes:hover {
+    transform: scale(1.1);
+}
+
+.confirmbtn-no {
+    background-color: #e5e5e5;
+    color: rgb(85, 85, 85);
+}
+
+.confirmbtn-yes {
+    background-color: red;
+    color: white;
+}

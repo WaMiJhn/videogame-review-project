@@ -1,0 +1,103 @@
+
+  
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .rating-labels {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #6b6b6b;
+  }
+  
+  .rating-label {
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .rating-label:hover {
+    color: #007bff;
+  }
+  
+  .rating-label.selected {
+    color: #007bff;
+  }
+  
+  /* Rating Color Ranges */
+  .progress-bar .progress[data-rating="0"],
+  .progress-bar .progress[data-rating="1"],
+  .progress-bar .progress[data-rating="2"],
+  .progress-bar .progress[data-rating="3"],
+  .progress-bar .progress[data-rating="4"] {
+    background-color: #f00; /* Red */
+  }
+  
+  .progress-bar .progress[data-rating="5"],
+  .progress-bar .progress[data-rating="6"] {
+    background-color: #fc3; /* Yellow/Orange */
+  }
+  
+  .progress-bar .progress[data-rating="7"],
+  .progress-bar .progress[data-rating="8"],
+  .progress-bar .progress[data-rating="9"],
+  .progress-bar .progress[data-rating="10"] {
+    background-color: #6c3; /* Green */
+  }
+  
+  .rating-label:hover[data-rating="0"],
+  .rating-label:hover[data-rating="1"],
+  .rating-label:hover[data-rating="2"],
+  .rating-label:hover[data-rating="3"],
+  .rating-label:hover[data-rating="4"] {
+    color: #f00; /* Red */
+  }
+  
+  .rating-label:hover[data-rating="5"],
+  .rating-label:hover[data-rating="6"],
+  .rating-label:hover[data-rating="7"] {
+    color: #fc3; /* Yellow/Orange */
+  }
+  
+  .rating-label:hover[data-rating="8"],
+  .rating-label:hover[data-rating="9"],
+  .rating-label:hover[data-rating="10"] {
+    color: #6c3; /* Green */
+  }
+  
+  .rating-label.selected[data-rating="0"],
+  .rating-label.selected[data-rating="1"],
+  .rating-label.selected[data-rating="2"],
+  .rating-label.selected[data-rating="3"],
+  .rating-label.selected[data-rating="4"] {
+    color: #f00; /* Red */
+  }
+  
+  .rating-label.selected[data-rating="5"],
+  .rating-label.selected[data-rating="6"],
+  .rating-label.selected[data-rating="7"] {
+    color: #fc3; /* Yellow/Orange */
+  }
+  
+  .rating-label.selected[data-rating="8"],
+  .rating-label.selected[data-rating="9"],
+  .rating-label.selected[data-rating="10"] {
+    color: #6c3; /* Green */
+  }
+  

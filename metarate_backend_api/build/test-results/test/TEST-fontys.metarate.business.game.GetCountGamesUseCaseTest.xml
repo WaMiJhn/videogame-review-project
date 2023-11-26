@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.game.GetCountGamesUseCaseTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.045">
+  <properties/>
+  <testcase name="getCountGames_withGenreAndTitle_shouldReturnCount()" classname="fontys.metarate.business.game.GetCountGamesUseCaseTest" time="0.039"/>
+  <testcase name="getCountGames_withTitle_shouldReturnCount()" classname="fontys.metarate.business.game.GetCountGamesUseCaseTest" time="0.001"/>
+  <testcase name="getCountGames_withGenre_shouldReturnCount()" classname="fontys.metarate.business.game.GetCountGamesUseCaseTest" time="0.001"/>
+  <testcase name="getCountGames_withNoFilters_shouldReturnCount()" classname="fontys.metarate.business.game.GetCountGamesUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

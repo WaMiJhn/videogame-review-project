@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#chat .chat-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: black ;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#chat .chat-header {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+#chat .chat-header h1 {
+    color: white;
+}
+
+#chat .chat-body {
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+#chat .sidebar {
+    border-right: 1px solid #ccc;
+    min-width: 250px;
+}
+
+#chat .user-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px;
+    gap: 15px;
+    cursor: pointer;
+}
+
+#chat .user-card:hover {
+    background-color: #f5f5f5;
+}
+
+
+#chat .user-card img {
+    border-radius: 100%;
+    width: 45px;
+}
+
+#chat .chat-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+#chat .chat-top {
+    height: 75px;
+    border-bottom: 1px solid #ccc;
+}
+
+#chat .chat-top .user-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 15px;
+}
+
+#chat .scroll-content {
+    height: 100%;
+}
+
+#chat .chat-input {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Add this line */
+    gap: 10px;
+}
+
+#paperplaneicon {
+    width: 22px;
+    height: 22px;
+    border-radius: 10px;
+    padding: 5px;
+    transition: 0.2s;
+}
+
+
+#chat .user-info img {
+    width: 45px;
+}
+
+#chat .input-box {
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #ccc;
+    display: flex;
+    padding: 2px 5px;
+    flex-direction: row;
+    align-items: center;
+    margin: 10px 0;
+}
+
+#chat .input-box input{
+    width: 100%;
+    max-width: 500px;
+    border: none;
+    padding: 4px;
+    outline: none;
+}
+
+.chat-btn-send {
+    border: none;
+    border-radius: 4px;
+}
+
+@media (min-height: 1000px) {
+    #chat .chat-body {
+        height: 768px;
+    }
+}
+  

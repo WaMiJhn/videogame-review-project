@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.game.DeleteGameUseCaseTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.012">
+  <properties/>
+  <testcase name="deleteGame_validId_gameDeleted()" classname="fontys.metarate.business.game.DeleteGameUseCaseTest" time="0.009"/>
+  <testcase name="deleteGame_gameNotFound_throwsGameNotFoundException()" classname="fontys.metarate.business.game.DeleteGameUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

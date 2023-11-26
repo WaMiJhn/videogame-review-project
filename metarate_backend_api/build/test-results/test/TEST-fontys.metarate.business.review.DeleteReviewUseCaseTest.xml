@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.review.DeleteReviewUseCaseTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.025">
+  <properties/>
+  <testcase name="deleteReview_shouldThrowUnauthorizedDataAccessExceptionWhenUserDoesNotOwnReview()" classname="fontys.metarate.business.review.DeleteReviewUseCaseTest" time="0.021"/>
+  <testcase name="deleteReview_shouldThrowReviewNotFoundExceptionWhenReviewNotFound()" classname="fontys.metarate.business.review.DeleteReviewUseCaseTest" time="0.001"/>
+  <testcase name="deleteReview_shouldDeleteReviewWhenUserOwnsReview()" classname="fontys.metarate.business.review.DeleteReviewUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

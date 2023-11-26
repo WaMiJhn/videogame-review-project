@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateGameUseCaseImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.business.impl.game</a> &gt; <span class="el_source">UpdateGameUseCaseImpl.java</span></div><h1>UpdateGameUseCaseImpl.java</h1><pre class="source lang-java linenums">package fontys.metarate.business.impl.game;
+
+import fontys.metarate.business.UpdateGameUseCase;
+import fontys.metarate.business.exception.GameNotFoundException;
+import fontys.metarate.domain.game.UpdateGameRequest;
+import fontys.metarate.persistence.GameRepository;
+import fontys.metarate.persistence.entity.GameEntity;
+import fontys.metarate.persistence.entity.GenreEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L15">@AllArgsConstructor</span>
+public class UpdateGameUseCaseImpl implements UpdateGameUseCase {
+    private final GameRepository gameRepository;
+
+    @Override
+    public void updateGame(UpdateGameRequest request) {
+<span class="fc" id="L21">        Optional&lt;GameEntity&gt; gameOptional = gameRepository.findById(request.getId());</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (gameOptional.isEmpty()) {</span>
+<span class="fc" id="L23">            throw new GameNotFoundException();</span>
+        }
+<span class="fc" id="L25">        GameEntity game = gameOptional.get();</span>
+<span class="fc" id="L26">        updateFields(request, game);</span>
+<span class="fc" id="L27">    }</span>
+
+    private void updateFields(UpdateGameRequest request, GameEntity game) {
+<span class="fc" id="L30">        game.setTitle(request.getTitle());</span>
+<span class="fc" id="L31">        game.setDeveloper(request.getDeveloper());</span>
+<span class="fc" id="L32">        game.setGenre(GenreEntity.builder().id(request.getGenreId()).build());</span>
+<span class="fc" id="L33">        game.setReleaseYear(request.getReleaseYear());</span>
+<span class="fc" id="L34">        game.setDescription(request.getDescription());</span>
+<span class="fc" id="L35">        game.setImageUrl(request.getImageUrl());</span>
+<span class="fc" id="L36">        game.setTrailerUrl(request.getTrailerUrl());</span>
+
+<span class="fc" id="L38">        gameRepository.save(game);</span>
+<span class="fc" id="L39">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

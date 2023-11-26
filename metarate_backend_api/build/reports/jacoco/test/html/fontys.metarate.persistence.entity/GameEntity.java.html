@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.persistence.entity</a> &gt; <span class="el_source">GameEntity.java</span></div><h1>GameEntity.java</h1><pre class="source lang-java linenums">package fontys.metarate.persistence.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.Set;
+
+<span class="pc bnc" id="L15" title="All 72 branches missed.">@Data</span>
+<span class="fc" id="L16">@NoArgsConstructor</span>
+<span class="fc" id="L17">@AllArgsConstructor</span>
+<span class="pc" id="L18">@Builder</span>
+@Entity
+@Table(name = &quot;game&quot;)
+
+public class GameEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = &quot;id&quot;)
+<span class="fc" id="L26">    private Long id;</span>
+
+    @NotBlank
+    @Length(min = 1, max = 255)
+    @Column(name = &quot;title&quot;)
+<span class="fc" id="L31">    private String title;</span>
+
+    @NotBlank
+    @Length(min = 1, max = 255)
+    @Column(name = &quot;developer&quot;)
+<span class="fc" id="L36">    private String developer;</span>
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = &quot;genre_id&quot;)
+<span class="fc" id="L41">    private GenreEntity genre;</span>
+
+    @NotNull
+    @Column(name = &quot;release_year&quot;)
+<span class="fc" id="L45">    private int releaseYear;</span>
+
+    @NotBlank
+    @Column(name = &quot;description&quot;, columnDefinition = &quot;TEXT&quot;)
+<span class="fc" id="L49">    private String description;</span>
+
+    @NotBlank
+    @Column(name = &quot;image_url&quot;)
+<span class="fc" id="L53">    private String imageUrl;</span>
+
+    @NotBlank
+    @Pattern(regexp = &quot;^https?:\\/\\/(?:www\\.)?youtube\\.com\\/embed\\/[\\w-]+$&quot;)
+    @Column(name = &quot;trailer_url&quot;)
+<span class="fc" id="L58">    private String trailerUrl;</span>
+
+    @OneToMany(mappedBy = &quot;game&quot;, cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+<span class="fc" id="L61">    private Set&lt;ReviewEntity&gt; reviews;</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

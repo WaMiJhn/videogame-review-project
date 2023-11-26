@@ -1,0 +1,536 @@
+@font-face {
+  font-family: 'Oswald';
+  src: url(../font/Oswald-VariableFont_wght.ttf) format('truetype');
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+/* nav */
+#nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px 80px;
+    background: black;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+#nav a.logo {
+    color: white;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+#nav a.logo img {
+    width: 50px;
+    margin-right: 5px;
+}
+#nav a.logo label {
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: bold;
+}
+#navbar-ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#navbar-ul li {
+    list-style: none;
+    padding: 0 20px;
+}
+#navbar-ul li a {
+    text-decoration: none;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 1s;
+}
+#navbar-ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.15s ease-in-out, left 0.15s ease-in-out;
+  }
+
+#navbar-ul li a:hover::after,
+#navbar-ul li a.active::after {
+    width: 40%;
+}
+
+#logoutbtn {
+  display: block;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  background-color: #ffcc34;
+}
+
+#logoutbtn:hover {
+    background-color: #cea52a;
+}
+
+/* CSS for GamesPage */
+
+#gamesPage {
+    width: 100%;
+    padding-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#gamesPage .games-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#gamesPage .game-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 750px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  border-top: 1px solid lightgrey;
+}
+
+#gamesPage .gamecard-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  font-size: 18px;
+  height: 40px;
+  width: 40px;
+  min-width: 40px;
+  color: white;
+  font-weight: bold;
+}
+
+
+#gamesPage .game-image {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+#gamesPage .game-details {
+  flex-grow: 1;
+}
+
+#gamesPage .game-details h2 {
+  display: inline-block;
+  font-size: 18px;
+  margin-bottom: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+#gamesPage .gamecard-admin {
+  display: flex;
+  flex-direction: row;
+  margin-right: 50px;
+}
+
+#gamesPage .gamecard-admin button {
+  padding: 8px;
+  border-radius: 5px;
+  border: 2px solid orange;
+  background-color: white;
+  cursor: pointer;
+  color: orange;
+}
+
+#gamesPage .gamecard-admin button:hover {
+  background-color: orange;
+  color: white;
+}
+
+#gamesPage .game-details h2:hover {
+    color: #ffcc34;
+}
+
+#gamesPage .game-details p {
+  margin-bottom: 5px;
+}
+#gamesPage .game-details p a {
+    color: black;
+}
+
+#gamesPage .game-description {
+  font-size: 14px;
+}
+#gamesPage .search-bar {
+  padding: 50px 0;
+  max-width: 750px;
+  width: 750px;
+}
+  
+#gamesPage .search-bar form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#gamesPage .search-bar input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 900px;
+    border: 1px solid #ccc;
+}
+
+#gamesPage .search-bar select {
+    padding: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#gamesPage .search-bar select:hover {
+    cursor: pointer;
+}
+
+#gamesPage .search-bar button {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: #ffcc34;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#gamesPage .search-bar button:hover {
+    background-color: #cea52a;
+}
+
+#gamesPage .search-bar button:focus {
+    outline: none;
+}
+
+#gamesPage .search-bar ::placeholder {
+    color: #999;
+}
+#gamesPage .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 0px;
+}
+  
+#gamesPage .pagination button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: black;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    padding: 6px 10px;
+}
+
+#gamesPage .pagination button:hover {
+    color: white;
+    background-color: #ffd965;
+}
+
+#gamesPage .pagination button.active {
+    font-weight: bold;
+    color: white;
+    border: white;
+    background-color: #ffcc34;
+}
+
+#gamesPage .pagination button.active:hover {
+    color: white;
+    border: white;
+    background-color: #cea52a;
+}
+
+/* Gamedetailpage */
+
+#gameDetailPage {
+  padding: 25px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the left */
+  justify-content: center; /* Center content vertically */
+  margin: 0 auto; /* Center the section horizontally */
+  width: 1080px; /* Set a maximum width for the section */
+}
+
+#gameDetailPage .countReviews {
+  font-weight: bold;
+}
+
+#gameDetailPage .game {
+  width: 100%;
+  background-color: white;
+}
+
+#gameDetailPage .game h2 {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 28px;
+  font-family: 'Oswald', sans-serif;
+}
+
+#gameDetailPage .game-details p {
+  margin: 0;
+}
+
+#gameDetailPage .game-details p:not(:last-child)::after {
+  content: "|";
+  margin: 0 10px;
+}
+
+#gameDetailPage .trailer {
+  align-self: center;
+}
+
+#gameDetailPage .game-details {
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Center the items vertically */
+  margin-bottom: 10px; /* Add some space at the bottom */
+  border-bottom: 1px solid #ccc; /* Add a horizontal line divider */
+  padding-bottom: 10px; /* Add some padding at the bottom */
+}
+
+#gameDetailPage .game-info {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+#descriptiontoggle {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#descriptiontoggle:hover {
+  color: #ffcc34;
+}
+
+#descriptiontoggle.collapsed::after {
+  border-right: 3px solid transparent;
+  border-top: 4px solid #333;
+  border-left: 3px solid transparent;
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  right: 0px;
+  position: relative; /* Changed to absolute for proper positioning */
+  left: 3px;
+  top: -2px;
+}
+
+#descriptiontoggle.expanded::after {
+  border-right: 3px solid transparent;
+  border-bottom: 4px solid #333;
+  border-left: 3px solid transparent;
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  right: 0px;
+  position: relative; /* Changed to absolute for proper positioning */
+  left: 3px;
+  top: -2px;
+}
+
+
+
+#gameDetailPage .middle {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#gameDetailPage .summary {
+  max-width: 490px;
+  word-wrap: break-word;
+}
+
+#gameDetailPage .sum {
+  font-weight: bold;
+}
+
+
+#gameDetailPage .rating{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+#gameDetailPage .score{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  font-size: 34px;
+  height: 65px;
+  width: 65px;
+  color: white;
+  font-weight: bold;
+}
+
+#gameDetailPage .small-game-details {
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+#gameDetailPage .small-game-details .for {
+  font-weight: bold;
+}
+
+#gameDetailPage .game img {
+  margin: 0 10px 10px 0;
+  width: 200px;
+  height: 100%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+#gameDetailPage .reviews-section {
+  width: 100%;
+}
+
+#reviewform {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #333;
+  color: white;
+  text-transform: uppercase;
+}
+
+#reviewform h3 {
+  font-weight: 500;
+  padding: 5px;
+  font-size: 18px;
+}
+
+#reviewform .inputform {
+  background-color: #ececec;
+  display: flex;
+  padding: 25px;
+  gap: 10px;
+  flex-direction: column;
+}
+
+#reviewform .review-score {
+  display: flex;
+  flex-direction: row;
+  color: #6b6b6b;
+  width: 450px;
+}
+#reviewform .review-score span {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#reviewform .input-text {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+
+  padding: 10px;
+}
+
+#reviewform .input-text textarea {
+  width: 100%;
+  height: 100px;
+  display: block;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333;
+  resize: vertical;
+  outline: none;
+}
+
+#reviewform .buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+#reviewform .two-btn {
+  justify-content: space-between;
+}
+
+#reviewform .review-btn {
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+
+#review-delete {
+  background-color: red;
+}
+
+#review-delete:hover {
+  background-color: #b30000;
+}
+
+#review-submit {
+  background-color: #ffcc34;
+}
+
+#review-submit:hover {
+  background-color: #cea52a;
+}
+
+
+
+#reviewform .review-score .progress-container {
+  margin: 8px 0 0 15px;
+}
+
+
+  
+  
+
+

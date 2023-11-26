@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fontys.metarate.business.login.LoginUseCaseTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-06-18T21:10:47" hostname="DESKTOP-MDH7F45" time="0.047">
+  <properties/>
+  <testcase name="testLogin_ValidCredentials()" classname="fontys.metarate.business.login.LoginUseCaseTest" time="0.045"/>
+  <testcase name="testLogin_InvalidUsername()" classname="fontys.metarate.business.login.LoginUseCaseTest" time="0.001"/>
+  <testcase name="testLogin_InvalidPassword()" classname="fontys.metarate.business.login.LoginUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

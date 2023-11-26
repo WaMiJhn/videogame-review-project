@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GetReviewsUseCaseImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.business.impl.review</a> &gt; <span class="el_source">GetReviewsUseCaseImpl.java</span></div><h1>GetReviewsUseCaseImpl.java</h1><pre class="source lang-java linenums">package fontys.metarate.business.impl.review;
+
+import fontys.metarate.business.GetReviewsUseCase;
+import fontys.metarate.domain.review.GetAllReviewsRequest;
+import fontys.metarate.domain.review.GetAllReviewsResponse;
+import fontys.metarate.domain.review.Review;
+import fontys.metarate.persistence.ReviewRepository;
+import fontys.metarate.persistence.entity.ReviewEntity;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L19">@AllArgsConstructor</span>
+public class GetReviewsUseCaseImpl implements GetReviewsUseCase {
+    private final ReviewRepository reviewRepository;
+
+    @Override
+    public GetAllReviewsResponse getReviews(GetAllReviewsRequest request) {
+<span class="fc" id="L25">        Sort sort = Sort.by(Sort.Direction.DESC, &quot;date&quot;);</span>
+<span class="fc" id="L26">        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), sort);</span>
+        Page&lt;ReviewEntity&gt; reviewPage;
+
+<span class="fc bfc" id="L29" title="All 4 branches covered.">        if (request.getUsername() != null &amp;&amp; request.getGameId() != null) {</span>
+<span class="fc" id="L30">            reviewPage = reviewRepository.findAllByGameIdAndUserUsername(request.getGameId(), request.getUsername(), pageable);</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        } else if (request.getUsername() != null) {</span>
+<span class="fc" id="L32">            reviewPage = reviewRepository.findAllByUserUsername(request.getUsername(), pageable);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        } else if (request.getGameId() != null) {</span>
+<span class="fc" id="L34">            reviewPage = reviewRepository.findAllByGameId(request.getGameId(), pageable);</span>
+        } else {
+<span class="fc" id="L36">            reviewPage = reviewRepository.findAll(pageable);</span>
+        }
+
+<span class="fc" id="L39">        List&lt;Review&gt; reviews = reviewPage</span>
+<span class="fc" id="L40">                .stream()</span>
+<span class="fc" id="L41">                .map(ReviewConverter::convert)</span>
+<span class="fc" id="L42">                .toList();</span>
+
+<span class="fc" id="L44">        final GetAllReviewsResponse response = new GetAllReviewsResponse();</span>
+<span class="fc" id="L45">        response.setReviews(reviews);</span>
+<span class="fc" id="L46">        return response;</span>
+    }
+}
+
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IsAuthenticatedAspect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">individual_project</a> &gt; <a href="index.source.html" class="el_package">fontys.metarate.configuration.security.isauthenticated</a> &gt; <span class="el_source">IsAuthenticatedAspect.java</span></div><h1>IsAuthenticatedAspect.java</h1><pre class="source lang-java linenums">package fontys.metarate.configuration.security.isauthenticated;
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
+
+@Aspect
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
+@Component
+<span class="nc" id="L22">public class IsAuthenticatedAspect {</span>
+
+<span class="nc" id="L24">    private static final Logger LOGGER = LoggerFactory.getLogger(IsAuthenticatedAspect.class);</span>
+
+    @Pointcut(&quot;@annotation(fontys.metarate.configuration.security.isauthenticated.IsAuthenticated)&quot;)
+    public void annotatedMethod() {
+<span class="nc" id="L28">    }</span>
+
+    @Pointcut(&quot;@within(fontys.metarate.configuration.security.isauthenticated.IsAuthenticated)&quot;)
+    public void annotatedClass() {
+<span class="nc" id="L32">    }</span>
+
+    @Around(&quot;(annotatedMethod() || annotatedClass()) &amp;&amp; execution(* *(..))&quot;)
+    public Object interceptMethod(final ProceedingJoinPoint interceptedMethod) throws Throwable {
+<span class="nc" id="L36">        final SecurityContext context = SecurityContextHolder.getContext();</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (context == null) {</span>
+<span class="nc" id="L38">            LOGGER.error(&quot;No security context found. No user authenticated.&quot;);</span>
+<span class="nc" id="L39">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+
+<span class="nc" id="L42">        final Authentication authentication = context.getAuthentication();</span>
+<span class="nc bnc" id="L43" title="All 4 branches missed.">        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {</span>
+<span class="nc" id="L44">            LOGGER.error(&quot;Authentication token null. No user authenticated.&quot;);</span>
+<span class="nc" id="L45">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);</span>
+        }
+
+<span class="nc" id="L48">        return interceptedMethod.proceed();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
