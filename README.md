@@ -1,1 +1,1 @@
-# videogame-revuew-project
+# videogame-review-project
