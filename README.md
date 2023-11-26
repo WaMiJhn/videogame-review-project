@@ -1,1 +1,1 @@
-# metacritic-clone
+# videogame-revuew-project
